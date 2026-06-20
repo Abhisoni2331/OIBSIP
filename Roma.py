@@ -7,6 +7,7 @@ import os
 import pywhatkit
 import speech_recognition as spr
 import wikipedia
+import pyjokes
 
 speaker = win32com.client.Dispatch("SAPI.SpVoice")
 
@@ -20,7 +21,7 @@ def take_command():
 
     with spr.Microphone() as source:
 
-        print("I am listening...")
+        print("Listening...")
 
         recognizer.adjust_for_ambient_noise(source, duration=1)
 
@@ -36,24 +37,11 @@ def take_command():
     except Exception as e:
             print("Error", e)
             return ""
-
-
-def wakeup_command():
-
-    while True:
-
-        command = take_command()
-
-        if "roma" in command:
-            speak("Yes Abhi, I am listening...")
-            return
-        
+   
     
 speak("Hi Abhi, Roma here")   
 
 while True:
-
-    wakeup_command()
 
     command = take_command()
 
@@ -120,6 +108,10 @@ while True:
     elif "visual studio" in command:
         speak("Opening Visual studio code")
         os.system("code")
+
+    elif "gmail" in command:
+        speak("opening gmail")
+        webbrowser.open("https://mail.google.com")    
     
     elif "who is" in command:
         
@@ -142,8 +134,33 @@ while True:
         except Exception as e:
             print(e)
             speak("Something went wrong")           
+    
+    elif "remember that" in command:
+        note = command.replace("remember that","").strip()
 
-    elif command == "exit" or command == "escape" or command == "good bye":
+        with open("memory.txt", "w") as file:
+            file.write(note)
+        speak("I have saved it")       
+
+    elif "what do you remember" in command:
+        try:
+
+            with open("memory.txt", "r") as file:
+                note = file.read()
+
+            speak(note)
+
+        except:
+            speak("I do not remember")        
+
+    elif "tell me a joke" in command:
+        joke = pyjokes.get_joke()
+
+        print (joke)
+
+        speak(joke)
+
+    elif any(word in command for word in ["exit", "escape", "bye", "goodbye"]):
         speak("Bye Abhi!!")
         break
 

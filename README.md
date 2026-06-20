@@ -31,5 +31,5 @@ Install required libraries
 Run roma.py
 
 
-AUTHOR
+AUTHOR:
 ABHISHEK SONI

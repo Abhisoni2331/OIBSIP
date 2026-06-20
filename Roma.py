@@ -8,6 +8,7 @@ import pywhatkit
 import speech_recognition as spr
 import wikipedia
 import pyjokes
+import psutil
 
 speaker = win32com.client.Dispatch("SAPI.SpVoice")
 
@@ -153,8 +154,9 @@ while True:
         except:
             speak("I do not remember")        
 
-    elif "tell me a joke" in command:
+    elif "joke" in command:
         joke = pyjokes.get_joke()
+
 
         print (joke)
 
